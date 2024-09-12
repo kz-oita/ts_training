@@ -1,1 +1,1 @@
-# react_ToDoApp
+# typescript trainig
