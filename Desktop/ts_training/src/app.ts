@@ -1,3 +1,42 @@
+//validation
+interface Validatable {
+  value: string | number;
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  min?: number;
+  max?: number;
+}
+
+function validate(validatabkeInput: Validatable){
+  let isValid = true;
+  if(validatabkeInput.required) {
+    isValid = isValid && validatabkeInput.value.toString().trim().length !== 0;
+  }
+
+  if(validatabkeInput.minLength != null && typeof validatabkeInput.value === 'string'){
+    isValid = validatabkeInput.value.length >= validatabkeInput.minLength;
+  }
+
+  if(validatabkeInput.maxLength != null && typeof validatabkeInput.value === 'string'){
+    isValid = validatabkeInput.value.length <= validatabkeInput.maxLength;
+  }
+
+  if(validatabkeInput.min != null && typeof validatabkeInput.value === 'number'){
+    isValid = validatabkeInput.value >= validatabkeInput.min;
+  }
+
+  if(validatabkeInput.max != null && typeof validatabkeInput.value === 'number'){
+    isValid = validatabkeInput.value <= validatabkeInput.max;
+  }
+
+  return isValid;
+}
+
+
+
+
+
 function autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
   const originalMethod = descriptor.value;
   const adjDescriptor: PropertyDescriptor = {
@@ -39,7 +78,29 @@ class ProjectInput {
     const enteredDescription = this.descriptionInputElement.value;
     const enteredManday  = this.mandayInputElement.value;
 
-    if(enteredTitle.trim().length === 0 || enteredDescription.trim().length === 0 || enteredManday.trim().length === 0){
+    const titleValidatable: Validatable = {
+      value: enteredTitle,
+      required: true,
+    };
+
+    const descriptionValidatable: Validatable = {
+      value: enteredDescription,
+      required: true,
+      minLength:5,
+    };
+
+    const mandayValidatable: Validatable = {
+      value: +enteredManday,
+      required: true,
+      min: 1,
+      max: 1000,
+    };
+
+    if(
+      !validate(titleValidatable) ||
+      !validate(descriptionValidatable) ||
+      !validate(mandayValidatable) 
+    ){
       alert("未入力です");
       return;
     } else {
