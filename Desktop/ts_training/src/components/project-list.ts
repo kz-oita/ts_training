@@ -1,11 +1,14 @@
-/// <reference path="base-component.ts"/>
-/// <reference path="../decorators/autobind.ts"/>
-/// <reference path="../states/project.ts"/>
-/// <reference path="../models/project.ts"/>
-/// <reference path="../models/drag-drop.ts"/>
 
-namespace App {
-  //ProjectList class
+import { Component } from "./base-component.js";
+import { Project } from "../models/project.js";
+import { autobind } from "../decorators/autobind.js";
+import { projectState } from "../states/project.js";
+import { ProjectStatus } from "../models/project.js";
+import { ProjectItem } from "./project-item.js";
+import { DragTarget } from "../models/drag-drop.js";
+
+
+ //ProjectList class
   export class ProjectList extends Component<HTMLDivElement, HTMLElement> implements DragTarget{
     assignedProjects: Project[];
 
@@ -72,4 +75,3 @@ namespace App {
       }
     }
   }
-}
